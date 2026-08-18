@@ -1,0 +1,30 @@
+# Autoresearch: <SHORT GOAL, e.g. "ai-content 25% → 0%">
+
+## Objective
+<One paragraph: what we optimize and against what. Be concrete.>
+
+Baseline (<DATE>): <metric value at start>.
+
+## Metrics
+- **Primary**: `<name>` (unit `<unit>`, **<higher|lower>** is better)
+- **Secondary**: `<name>` (...)
+
+## How to Run
+`./autoresearch.sh` — prints `METRIC primary=<value>` (+ secondary METRIC lines).
+
+## Files in Scope
+- `<file A>` — <what to tune here>
+- `<file B>` — <...>
+
+## Off Limits
+- Do NOT touch `<runner / eval code>` (no metric-hacking).
+- Do NOT change `<files outside scope>`.
+
+## Constraints
+- Small, explicit changes only (regression-friendly).
+- Never regress an already-achieved metric.
+- <domain-specific constraint>
+
+## What's Been Tried
+### Run 1 — baseline (<metric>) — KEEP
+- <description of starting state>

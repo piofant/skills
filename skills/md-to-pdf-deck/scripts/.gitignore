@@ -1,0 +1,8 @@
+# build artifacts (regenerated per run)
+out.html
+processed.md
+override.css
+src.md
+m_*.mmd
+m_*.svg
+*.pdf

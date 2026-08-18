@@ -1,0 +1,19 @@
+{
+  "name": "pioblog-blog-search-mcp",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Local MCP server: semantic + tag search over pioblog posts",
+  "bin": {
+    "pioblog-blog-search": "server.mjs"
+  },
+  "scripts": {
+    "index": "node build-index.mjs",
+    "index:force": "node build-index.mjs --force",
+    "start": "node server.mjs"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.0.0",
+    "zod": "^3.23.0"
+  }
+}

@@ -1,0 +1,277 @@
+@page {
+  size: A4 landscape;
+  margin: 16mm 20mm;
+  background: #0d1117;
+}
+
+* { box-sizing: border-box; }
+
+/* Override pandoc's default styles that constrain body to 36em */
+html {
+  background: #0d1117 !important;
+}
+
+body {
+  background: #0d1117 !important;
+  color: #e6edf3 !important;
+  font-family: -apple-system, "Helvetica Neue", "Helvetica", "Arial", "Inter", "Noto Sans", sans-serif !important;
+  font-size: 11pt !important;
+  line-height: 1.55 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  max-width: none !important;
+  hyphens: none !important;
+}
+
+/* ============================================================
+   COVER SLIDE
+   ============================================================ */
+.cover {
+  text-align: center;
+  padding: 35mm 0 0;
+  page-break-after: always;
+  width: 100%;
+}
+
+.cover h1 {
+  display: block;
+  width: 100%;
+  font-size: 46pt;
+  font-weight: 800;
+  color: #58a6ff;
+  line-height: 1.1;
+  margin: 0 0 18pt;
+  padding: 0;
+  text-align: center;
+}
+
+.cover p.subtitle,
+.cover p.tagline,
+.cover p.author {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+}
+
+.cover p.subtitle {
+  font-size: 22pt;
+  color: #8b949e;
+  font-weight: 400;
+  margin-top: 6pt;
+  margin-bottom: 48pt;
+  letter-spacing: 1.5px;
+}
+
+.cover p.tagline {
+  font-size: 16pt;
+  color: #c9d1d9;
+  font-style: italic;
+  max-width: 220mm;
+  line-height: 1.55;
+  margin-top: 0;
+  margin-bottom: 55pt;
+}
+
+.cover p.author {
+  color: #8b949e;
+  font-size: 13pt;
+  letter-spacing: 0.5px;
+  margin-top: 20pt;
+}
+
+/* ============================================================
+   SLIDES
+   ============================================================ */
+h2 {
+  page-break-before: always;
+  font-size: 28pt;
+  font-weight: 700;
+  color: #58a6ff;
+  line-height: 1.2;
+  margin: 0 0 14pt;
+  padding-bottom: 10pt;
+  border-bottom: 2pt solid #21262d;
+}
+
+h1 {
+  font-size: 30pt;
+  font-weight: 800;
+  color: #58a6ff;
+  line-height: 1.1;
+  margin: 20pt 0 10pt;
+}
+
+h3 {
+  font-size: 17pt;
+  font-weight: 600;
+  color: #79c0ff;
+  margin: 14pt 0 8pt;
+}
+
+h4 {
+  font-size: 13pt;
+  font-weight: 600;
+  color: #a5d6ff;
+  margin: 10pt 0 4pt;
+}
+
+p {
+  margin: 6pt 0;
+  font-size: 11pt;
+}
+
+em { color: #e6c89d; font-style: italic; }
+strong { color: #ffffff; font-weight: 700; }
+a { color: #79c0ff; text-decoration: none; }
+
+hr { display: none; }
+
+div[align="center"] { text-align: center; }
+
+/* Tables */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 10pt 0;
+  font-size: 10.5pt;
+  break-inside: avoid;
+}
+
+th {
+  background: #161b22;
+  color: #58a6ff;
+  font-weight: 600;
+  text-align: left;
+  padding: 7pt 11pt;
+  border: 1px solid #30363d;
+  font-size: 10pt;
+}
+
+td {
+  padding: 6pt 11pt;
+  border: 1px solid #30363d;
+  vertical-align: top;
+  color: #c9d1d9;
+}
+
+tr:nth-child(even) td { background: #0f141a; }
+
+/* Code */
+code {
+  font-family: "JetBrains Mono", "Noto Sans Mono", ui-monospace, monospace;
+  background: #1c2128;
+  color: #79c0ff;
+  padding: 1pt 6pt;
+  border-radius: 3pt;
+  font-size: 10pt;
+}
+
+pre {
+  background: #161b22;
+  border: 1px solid #30363d;
+  border-radius: 6pt;
+  padding: 12pt 16pt;
+  margin: 10pt 0;
+  font-family: "JetBrains Mono", "Noto Sans Mono", ui-monospace, monospace;
+  font-size: 9.5pt;
+  line-height: 1.5;
+  break-inside: avoid;
+}
+
+pre code {
+  background: transparent;
+  padding: 0;
+  color: #e6edf3;
+  font-size: 9.5pt;
+}
+
+/* Blockquotes = dialogs */
+blockquote {
+  background: #161b22;
+  border-left: 3pt solid #58a6ff;
+  border-radius: 0 6pt 6pt 0;
+  margin: 10pt 0;
+  padding: 12pt 18pt;
+  color: #c9d1d9;
+  font-size: 11.5pt;
+  line-height: 1.6;
+  break-inside: avoid;
+}
+
+blockquote p { margin: 4pt 0; }
+blockquote em { color: #e6c89d; font-style: italic; }
+
+/* GitHub alerts */
+.gh-alert {
+  border-radius: 6pt;
+  padding: 12pt 18pt;
+  margin: 12pt 0;
+  border-left: 3pt solid;
+  break-inside: avoid;
+  font-size: 10.5pt;
+}
+
+.gh-alert p { margin: 4pt 0; }
+
+.gh-alert-title {
+  font-weight: 700;
+  font-size: 10pt;
+  margin-bottom: 5pt;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.gh-alert-note { background: #0d2035; border-color: #58a6ff; }
+.gh-alert-note .gh-alert-title { color: #58a6ff; }
+.gh-alert-tip { background: #0d2818; border-color: #3fb950; }
+.gh-alert-tip .gh-alert-title { color: #3fb950; }
+.gh-alert-important { background: #21183c; border-color: #a371f7; }
+.gh-alert-important .gh-alert-title { color: #a371f7; }
+.gh-alert-warning { background: #2d1f00; border-color: #d29922; }
+.gh-alert-warning .gh-alert-title { color: #d29922; }
+.gh-alert-caution { background: #2d0000; border-color: #f85149; }
+.gh-alert-caution .gh-alert-title { color: #f85149; }
+
+/* Lists */
+ul, ol {
+  margin: 6pt 0 8pt 16pt;
+  padding-left: 10pt;
+}
+
+li { margin: 4pt 0; font-size: 10.5pt; }
+
+/* Mermaid diagrams */
+.mermaid-wrap {
+  text-align: center;
+  margin: 14pt 0;
+  break-inside: avoid;
+}
+
+.mermaid-wrap img {
+  max-width: 95%;
+  max-height: 130mm;
+}
+
+/* TOC */
+nav#TOC {
+  background: #161b22;
+  border: 1px solid #30363d;
+  border-radius: 6pt;
+  padding: 16pt 22pt;
+  margin: 14pt 0;
+  break-after: page;
+  font-size: 11pt;
+}
+
+nav#TOC ul { list-style: none; padding-left: 14pt; margin: 4pt 0; }
+nav#TOC > ul { padding-left: 0; }
+nav#TOC a { color: #79c0ff; line-height: 1.9; text-decoration: none; }
+nav#TOC > ul > li > a {
+  font-weight: 600;
+  color: #58a6ff;
+  font-size: 12pt;
+}
+
+.title, header#title-block-header { display: none; }
+.cover h1 { page-break-before: avoid; }
