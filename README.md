@@ -66,6 +66,11 @@ Russian-language editing, automation loops. Most skills are Russian-first;
 - `autoresearch` — петля «замерь → поменяй → замерь → оставь лучшее»
 - `market-analysis` — MECE, SCPR, RICE, разбор рынка
 - `notebooklm` — работа с Google NotebookLM: блокноты, источники, подкасты
+- `yandex360-calendar` — личный Яндекс Календарь по CalDAV: календари, события
+  на сегодня, неделю или произвольный диапазон. Только stdlib, без зависимостей
+- `yandex360-disk` — Яндекс Диск по WebDAV: дерево папок, поиск по именам,
+  занятое место, скачивание и загрузка. Загрузка — через подтверждение,
+  потому что `PUT` перезаписывает молча
 
 ## MCP-серверы
 
