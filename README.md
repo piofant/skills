@@ -34,6 +34,9 @@ Russian-language editing, automation loops. Most skills are Russian-first;
 
 ## Деки и презентации
 
+- `dialogue-comparison-report` — HTML/PDF сравнения диалогов со старым и новым
+  промптом: полные ответы в двух колонках, кнопки-подсказки, время и инструменты,
+  честные пометки ошибок и отдельное приложение остановленных прогонов
 - `dark-deck-builder` — тёмные минимал-деки с активными заголовками на pptxgenjs
 - `board-deck-builder` — структура борд- и инвестор-апдейта
 - `pitch-deck-builder` — нарратив и порядок слайдов для питча
