@@ -1,6 +1,6 @@
 # Осинара — карта кода (nyxandro/osinara)
 
-Снято с коммита: `251a28f` (2026-11-22). Пути — от корня репо. Копия: `~/.cache/agent-refs/osinara`.
+Снято с коммита: `251a28f` (2026-11-22). Карта — подсказка: пути проверять `scripts/search.py`, при расхождении прав код. Пути — от корня репо. Копия: `~/.cache/agent-refs/osinara`.
 
 ## Что это
 Self-hosted агент одной семьи, живёт только в Telegram: помнит контекст, ставит напоминания и сценарии по расписанию, работает с файлами, Google Workspace и браузером в Docker-sandbox. Главная идея: права определяет проверенный апдейт Telegram и база, а не текст промпта. TypeScript (Node 24), своё ядро на Vercel AI SDK 7 (часть кода адаптирована из `vercel/eve` 0.40.0), PostgreSQL 17 + pgvector, локальные эмбеддинги multilingual-e5-small через HF TEI. Модель по умолчанию `deepseek-v4-flash` (`config/agent-model-providers.json`), голос Groq Whisper, озвучка ElevenLabs. Docker Compose (`compose.production.yaml`), образы из CI в GHCR, `install.sh` + CLI `osinara`, автообновление после подтверждения владельца в Telegram. Вход — `agent/main.ts`. ~115k строк TS, ~107k строк тестов, 158 SQL-миграций.

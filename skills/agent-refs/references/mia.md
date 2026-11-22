@@ -1,6 +1,6 @@
 # Мия — карта кода (ilkruglov/osinara)
 
-Снято с коммита: `28e8ec0` (2026-11-22). Копия: `~/.cache/agent-refs/mia`. Короткие пути без каталога (`memory-retrieval.ts`) лежат в `agent/lib/`; `tools/…`, `hooks/…`, `instructions/…` — в `agent/`. Не нашёл файл — `search.py '<имя>' --only mia`.
+Снято с коммита: `28e8ec0` (2026-11-22). Карта — подсказка: пути проверять `scripts/search.py`, при расхождении прав код. Копия: `~/.cache/agent-refs/mia`. Короткие пути без каталога (`memory-retrieval.ts`) лежат в `agent/lib/`; `tools/…`, `hooks/…`, `instructions/…` — в `agent/`. Не нашёл файл — `search.py '<имя>' --only mia`.
 
 ## Что это
 Self-hosted помощница одной семьи в Telegram: личный чат, семейные и внешние группы. Живёт в чате Острикова. TypeScript (Node 24) на Eve 0.40, форк в `vendor/eve` с патчами под тестами (`agent/lib/eve-*-patch.test.ts`). PostgreSQL 17 + pgvector + workflow-world-postgres. Чат и vision — только DeepSeek (`deepseek-flash`, Responses API); голос — Groq Whisper; картинки — цепочка PlusVibe → NeuralDeep → Cloudflare; эмбеддинги — локальный TEI с `sergeyzh/BERTA`. Docker Compose, свой установщик (`scripts/provider-installer`), подписанные релизы, обновление после «да» владельца. ~110k строк TS без тестов и столько же тестов, 147 миграций. Лицензия Apache-2.0 (`LICENSE`, `NOTICE`); скиллы `agent/skills/{pdf,docx,xlsx}` — под своими лицензиями.

@@ -1,6 +1,6 @@
 # Ива — карта кода (smixs/iva-agent)
 
-Снято с коммита: `c158cea` (2026-11-17). Пути — от корня репо. Копия: `~/.cache/agent-refs/iva`.
+Снято с коммита: `c158cea` (2026-11-17). Карта — подсказка: пути проверять `scripts/search.py`, при расхождении прав код. Пути — от корня репо. Копия: `~/.cache/agent-refs/iva`.
 
 ## Что это
 Личный ассистент в Telegram на сервере владельца; память — Markdown-vault в отдельном git-репо (дневные логи → выжимки → карточки, CORE.md). Node ≥24 + TypeScript на харнессе `eve` (форк vercel/eve 0.51.1, вендор в `eve/`, ~200k строк — не путать со своим кодом) и Vercel AI SDK v7. Провайдеры: OpenCode Go, Ollama Cloud, OpenRouter, Codex (подписка ChatGPT, OAuth), Claude (через локальный Claude Code CLI), любой OpenAI-совместимый (`agent/lib/model-provider.ts:58`). Голос — Deepgram. Есть юзербот на Telethon (`services/telegram-userbot/`). Установка `install.sh`/`bootstrap.sh`, systemd user-юниты (`deploy/`), CLI `iva` (`bin/iva.mjs` → `scripts/cli/`). Своего кода ~100k строк (`agent/` ~36k, `scripts/` ~60k), тестов ~190k строк, 41 TLA+-спека в `specs/`. Лицензия MIT.
