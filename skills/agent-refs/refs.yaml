@@ -1,0 +1,40 @@
+# Реестр референсных агентов. Добавить нового — дописать блок и запустить scripts/sync.py,
+# затем собрать карту по references/map-prompt.md в references/<name>.md.
+cache_dir: ~/.cache/agent-refs
+
+agents:
+  - name: iva
+    title: Ива
+    repo: smixs/iva-agent
+    author: Сергей Шима (@aimastersme, github smixs)
+    lang: TypeScript
+    license: MIT
+    focus: личный ассистент в Telegram; память — Markdown/Obsidian (дневные логи → сводки → карточки, CORE.md), SQLite FTS5 + граф
+    related: [smixs/agent-second-brain, smixs/autograph, smixs/skill-conductor, smixs/iva-plugins]
+
+  - name: osinara
+    title: Осинара
+    repo: nyxandro/osinara
+    author: Александр «Пух» Андросов (@AiHubFeed, github nyxandro)
+    lang: TypeScript
+    license: без лицензии (все права у автора; только файлы eve под Apache-2.0) — переносить приёмы, не код
+    focus: агент в личных, семейных и групповых чатах; границы доступа; память с источниками, версиями, конфликтами; PostgreSQL + pgvector
+    related: [nyxandro/telegram-bot-development-skill, nyxandro/feature-blueprint-skill]
+
+  - name: mia
+    title: Мия
+    repo: ilkruglov/osinara
+    author: Илья Круглов (@ilya_kruglov)
+    lang: TypeScript
+    license: Apache-2.0 (для изменений форка)
+    focus: сильно переписанный форк Осинары; живёт в чате Острикова; гибридная память FTS + векторы + RRF, веб и браузер, проверяемое улучшение навыков
+    related: [ilkruglov/developing-ai-agents-skill, ilkruglov/ai-agent-book, ilkruglov/shusha]
+
+  - name: dashulya
+    title: Дашуля
+    repo: Lancetnik/dashulya
+    author: Никита Пастухов (@diementros, github Lancetnik)
+    lang: Python (aiogram + AG2)
+    license: MIT
+    focus: ассистент группового чата с памятью и характером; дайджесты и прожарки чата со ссылками на сообщения
+    related: []
