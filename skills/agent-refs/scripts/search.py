@@ -19,7 +19,7 @@ import sys
 import subprocess
 from pathlib import Path
 
-from sync import load_refs
+from sync import git_env, load_refs
 
 SKIP_DIRS = {".git", ".agents", ".claude", ".codex", "node_modules", "dist", "build", "coverage", ".next", "vendor", "__pycache__",
              ".venv", "venv", ".turbo", ".cache", "out"}
@@ -42,7 +42,7 @@ def walk(root):
                 continue
 
 
-TEST_RX = re.compile(r"(^|/)(tests?|__tests__|e2e|fixtures|stress)(/|$)|[._-](test|spec)\.[a-z]+$|(^|/)test_[^/]+$", re.I)
+TEST_RX = re.compile(r"(^|/)(tests?|__tests__|e2e|fixtures|stress)(/|$)|[._-](test|spec)\.[a-z]+$|(^|/)(test_[^/]+|tests\.py|conftest\.py)$", re.I)
 FIX_RX = r"^(fix|hotfix|revert|bugfix)\b|исправ|почин|чиню|чиним|не теря|не пропада|не дубл|не застрев"
 
 
@@ -69,7 +69,7 @@ def search_log(root, pattern, limit=20, fix=False):
         r = subprocess.run(
             ["git", "-C", str(root), "log", "--no-merges", "-i", flag, f"--grep={pattern}",
              "--format=%x1e%h %cs %s%x1f%b", f"-n{limit * (5 if fix else 1)}"],
-            capture_output=True, text=True,
+            capture_output=True, text=True, env=git_env(root.parent), timeout=60,
         )
         if r.returncode == 0:
             out = []
@@ -102,13 +102,15 @@ def main():
         rx = re.compile(a.pattern, re.I)
     except re.error as e:
         sys.exit(f"неверная регулярка {a.pattern!r}: {e}")
+    if a.fix and not a.log:
+        a.log = True  # --fix имеет смысл только для истории коммитов
     only = {x for x in a.only.split(",") if x}
     cache, agents = load_refs()
     for ag in agents:
         if only and ag["name"] not in only:
             continue
         root = cache / ag["name"]
-        if not root.exists():
+        if not (root / ".git").is_dir():
             print(f"\n## {ag['name']}: нет копии — запусти scripts/sync.py")
             continue
         hits, total = search_code(root, rx, a.top, a.show, a.no_tests)
@@ -122,7 +124,7 @@ def main():
             if err:
                 print(f"  коммиты: git не понял шаблон ({err})")
             shallow = subprocess.run(["git", "-C", str(root), "rev-parse", "--is-shallow-repository"],
-                                     capture_output=True, text=True).stdout.strip() == "true"
+                                     capture_output=True, text=True, env=git_env(root.parent)).stdout.strip() == "true"
             note = " — история обрезана, запусти sync.py" if shallow else ""
             print(f"  коммиты по теме ({len(commits)}, показан заголовок; текст — git show <sha>){note}:")
             for c in commits:

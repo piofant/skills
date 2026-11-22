@@ -13,6 +13,7 @@ import fcntl
 import json
 import os
 import re
+import shutil
 import subprocess
 import sys
 from pathlib import Path
@@ -23,7 +24,12 @@ STALE_COMMITS = 100
 NET_TIMEOUT = 300
 NAME_RX = re.compile(r"^[a-z0-9_-]+$")
 REPO_RX = re.compile(r"^[\w.-]+/[\w.-]+$")
-GIT_ENV = {**os.environ, "GIT_TERMINAL_PROMPT": "0", "GIT_ASKPASS": "true"}
+GIT_ENV = {**os.environ, "GIT_TERMINAL_PROMPT": "0", "GIT_ASKPASS": "true", "LC_ALL": "C.UTF-8"}
+
+
+def git_env(cache):
+    # Не даём git подняться выше кэша: без этого папка без .git привела бы его в чужой репозиторий.
+    return {**GIT_ENV, "GIT_CEILING_DIRECTORIES": str(Path(cache).resolve())}
 
 
 def _value(line):
@@ -39,7 +45,7 @@ def load_refs():
         s = line.strip()
         if s.startswith("cache_dir:"):
             cache = _value(s)
-        elif s.startswith("- "):
+        elif re.match(r"^- name:", s):
             cur = {}
             agents.append(cur)
             s = s[2:].strip()
@@ -56,7 +62,8 @@ def load_refs():
 
 
 def git(cwd, *args, check=True, timeout=60):
-    r = subprocess.run(["git", "-C", str(cwd), *args], capture_output=True, text=True, env=GIT_ENV, timeout=timeout)
+    r = subprocess.run(["git", "-C", str(cwd), *args], capture_output=True, text=True,
+                       env=git_env(Path(cwd).parent), timeout=timeout)
     if check and r.returncode != 0:
         raise RuntimeError(f"git {' '.join(args)}: {r.stderr.strip()}")
     return r.stdout.strip()
@@ -64,7 +71,7 @@ def git(cwd, *args, check=True, timeout=60):
 
 def has_commit(dest, sha):
     return subprocess.run(["git", "-C", str(dest), "cat-file", "-e", f"{sha}^{{commit}}"],
-                          capture_output=True, env=GIT_ENV).returncode == 0
+                          capture_output=True, env=git_env(Path(dest).parent)).returncode == 0
 
 
 def map_sha(name):
@@ -87,8 +94,14 @@ def map_lag(dest, sha):
 
 def update(dest, repo):
     url = f"https://github.com/{repo}"
+    if dest.exists() and not (dest / ".git").is_dir():
+        print("  папка без .git (оборванный клон?) — клонирую заново")
+        shutil.rmtree(dest)
     if not dest.exists():
-        subprocess.run(["git", "clone", "-q", url, str(dest)], check=True, env=GIT_ENV, timeout=NET_TIMEOUT)
+        tmp = dest.with_name(dest.name + ".tmp")
+        shutil.rmtree(tmp, ignore_errors=True)
+        subprocess.run(["git", "clone", "-q", url, str(tmp)], check=True, env=git_env(dest.parent), timeout=NET_TIMEOUT)
+        tmp.rename(dest)
         return
     git(dest, "remote", "set-url", "origin", url)
     head_ref = git(dest, "ls-remote", "--symref", "origin", "HEAD", timeout=NET_TIMEOUT)
@@ -118,6 +131,8 @@ def main():
     state_path = cache / ".state.json"
     try:
         state = json.loads(state_path.read_text()) if state_path.exists() else {}
+        if not isinstance(state, dict):
+            raise ValueError("not a dict")
     except (ValueError, OSError):
         print("состояние .state.json повреждено — начинаю заново", file=sys.stderr)
         state = {}
@@ -128,14 +143,16 @@ def main():
         dest = cache / a["name"]
         print(f"\n## {a['name']} ({a['repo']}) → {dest}")
         try:
-            if status_only and not dest.exists():
+            if status_only and not (dest / ".git").is_dir():
                 print("  нет копии — запусти без --status")
                 continue
             if not status_only:
                 update(dest, a["repo"])
-            head = git(dest, "rev-parse", "--short", "HEAD")
-            print(f"  HEAD {head} от {git(dest, 'log', '-1', '--format=%cs')}")
+            head = git(dest, "rev-parse", "HEAD")
+            print(f"  HEAD {head[:8]} от {git(dest, 'log', '-1', '--format=%cs')}")
             reported = state.get(a["name"], {}).get("reported") if isinstance(state.get(a["name"]), dict) else None
+            if reported and len(reported) < 40 and has_commit(dest, reported):
+                reported = git(dest, "rev-parse", reported)  # старое состояние хранило короткий хеш
             if reported and reported != head:
                 if not has_commit(dest, reported):
                     print(f"  коммит прошлого отчёта {reported} не найден (история переписана?)")
